@@ -5,9 +5,20 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="19dfd582-9b1d-4e1c-bab9-a3c44ccba9bc" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/hevent-be/src/main/java/com/itbh/hevent/Repositories/ArticleRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/hevent-be/src/main/java/com/itbh/hevent/repositories/ArticleRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/hevent-be/src/main/java/com/itbh/hevent/Repositories/CategoryRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/hevent-be/src/main/java/com/itbh/hevent/repositories/CategoryRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/hevent-be/src/main/java/com/itbh/hevent/Repositories/UserRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/hevent-be/src/main/java/com/itbh/hevent/repositories/UserRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/hevent-fe/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/hevent-fe/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/hevent-fe/src/App.vue" beforeDir="false" afterPath="$PROJECT_DIR$/hevent-fe/src/App.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/hevent-fe/src/assets/base.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/hevent-fe/src/assets/logo.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/hevent-fe/src/assets/main.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/hevent-fe/src/components/HelloWorld.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/hevent-fe/src/components/TheWelcome.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/hevent-fe/src/components/WelcomeItem.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/hevent-fe/src/components/icons/IconCommunity.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/hevent-fe/src/components/icons/IconDocumentation.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/hevent-fe/src/components/icons/IconEcosystem.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/hevent-fe/src/components/icons/IconSupport.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/hevent-fe/src/components/icons/IconTooling.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/hevent-fe/src/main.ts" beforeDir="false" afterPath="$PROJECT_DIR$/hevent-fe/src/main.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -58,7 +69,7 @@
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "git-widget-placeholder": "main",
     "jdk.selected.JAVA_MODULE": "jbr-17",
-    "last_opened_file_path": "C:/Users/falao/Desktop/hevent/src/main/java/com/itbh/hevent/configs",
+    "last_opened_file_path": "C:/Users/falao/Desktop/hevent/hevent-be",
     "settings.editor.selected.configurable": "AtomSelectConfig"
   }
 }]]></component>

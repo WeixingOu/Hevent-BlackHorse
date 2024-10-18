@@ -18,7 +18,7 @@
             <div class="header-user-con">
                 <el-avatar class="user-avator" :size="30" />
                 
-                <el-dropdown class="user-name" placement="bottom-end">
+                <el-dropdown class="user-name" trigger="click" placement="bottom-end">
                     
                     <span class="el-dropdown-link">
                         {{ '' }}

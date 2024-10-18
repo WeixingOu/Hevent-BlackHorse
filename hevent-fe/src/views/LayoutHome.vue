@@ -1,13 +1,14 @@
 <template>
     <div class="wrapper">
         <v-header />
-
+        <v-sidebar />
         <div class="content-box" :class="{ 'content-collapse': sidebar.collapse }"></div>
     </div>
 </template>
 <script setup lang="ts">
 import { useSidebarStore } from '@/stores/sidebar';
 import vHeader from '@/components/HeaderBar.vue';
+import vSidebar from '@/components/SideBar.vue';
 
 
 const sidebar = useSidebarStore();

@@ -5,7 +5,8 @@
     </picture>
   </a>
 </p>
-
+<p align="center">
+  
 ![Spring Boot](https://img.shields.io/badge/Spring_Boot-3.0-brightgreen.svg)
 ![Vue 3](https://img.shields.io/badge/Vue_3-3.2.x-brightgreen.svg)
 ![TypeScript](https://img.shields.io/badge/TypeScript-4.1-blue.svg)
@@ -19,6 +20,8 @@
 ![Email SMTP](https://img.shields.io/badge/Email_SMTP-Integration-lightgrey.svg)
 ![Pinia](https://img.shields.io/badge/Pinia-State_Management-ff69b4.svg)
 ![Vue-Router](https://img.shields.io/badge/Vue_Router-4.0-lightgrey.svg)
+
+</p>
 
 > This full-stack application is a cutting-edge example of integrating modern back-end and front-end technologies to create a responsive, scalable, and secure online platform.
 

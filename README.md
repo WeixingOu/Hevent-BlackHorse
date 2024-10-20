@@ -1,14 +1,9 @@
-# Hevent - Black Horse
-
-# Full Stack Development with Spring Maven & Vue 3
 <p align="center">
   <a href="#">
     <picture>
-      <img src="/hevent-fe/src/assets/img/logo3.png" width="400" />
+      <img src="/hevent-fe/src/assets/img/logo3.png" width=450 />
     </picture>
-    
   </a>
-  
 </p>
 
 ![Spring Boot](https://img.shields.io/badge/Spring_Boot-3.0-brightgreen.svg)

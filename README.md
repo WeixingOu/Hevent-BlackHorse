@@ -1,7 +1,7 @@
 <p align="center">
   <a href="#">
     <picture>
-      <img src="/hevent-fe/src/assets/img/logo3.png" width=500 />
+      <img src="/hevent-fe/src/assets/img/logo3.png" width=400 />
     </picture>
   </a>
 </p>

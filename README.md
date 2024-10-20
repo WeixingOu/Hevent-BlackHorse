@@ -1,4 +1,6 @@
-# Hevent - Black Horse - Full Stack Development with Spring Maven & Vue 3
+# Hevent - Black Horse
+
+# Full Stack Development with Spring Maven & Vue 3
 
 ![Spring Boot](https://img.shields.io/badge/Spring_Boot-3.0-brightgreen.svg)
 ![Vue 3](https://img.shields.io/badge/Vue_3-3.2.x-brightgreen.svg)

@@ -84,3 +84,7 @@ npm run serve
 - **Continuous Integration/Deployment**: Using tools like Jenkins and Docker for automated testing and deployment.
 - **Code Quality Assurance**: Implementing ESLint and Prettier in the development process to ensure that all code meets industry standards.
 - **Scalable Architecture**: Designing the application to handle increases in load gracefully, ensuring long-term sustainability.
+
+---
+
+Copyright (c) 2024-present Weixing Ou

@@ -1,6 +1,7 @@
 import { useTokenStore } from "@/stores/token";
 import type { ErrorResponse } from "@/types";
 import axios from "axios";
+import router from "@/routers";
 import type { AxiosInstance, AxiosError, AxiosResponse, InternalAxiosRequestConfig } from "axios";
 
 import { ElMessage } from "element-plus";
@@ -18,32 +19,33 @@ instance.interceptors.request.use(
             config.headers.Authorization = `Bearer ${tokenStore.token}`;
         }
 
-        return config
+        return config;
     },
 
     (error: AxiosError) => {
-        return Promise.reject(error)
+        return Promise.reject(error);
     }
 )
 
 instance.interceptors.response.use(
     (response: AxiosResponse) => {
-        if (response.status === 200) {
-            return response.data
+        if (response.status < 300) {
+            return response.data;
         }
 
-        ElMessage.error(response.data.message ? response.data.message: 'Service exception')
+        ElMessage.error(response.data.message ? response.data.message: 'Service exception');
 
         return Promise.reject(response.data)
     },
 
     (error: AxiosError<ErrorResponse>) => {
         if (error.status === 401) {
-            ElMessage.error("Please login first")
+            ElMessage.error("Please login first");
+            router.push('/login');
         } else {
             ElMessage.error(error.response?.data?.message ?? 'Service exception');
         }
-        return Promise.reject(error)
+        return Promise.reject(error);
     }
 )
 

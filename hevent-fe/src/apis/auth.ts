@@ -14,5 +14,5 @@ export const loginService = (loginData: LoginData) => {
         url: '/auth/login',
         method: 'post',
         data: loginData
-    })
+    });
 }

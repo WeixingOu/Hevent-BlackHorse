@@ -1,4 +1,4 @@
-# Huge Event Black Horse - Full Stack Development with Spring Maven & Vue 3
+# Hevent - Black Horse - Full Stack Development with Spring Maven & Vue 3
 
 ![Spring Boot](https://img.shields.io/badge/Spring_Boot-3.0-brightgreen.svg)
 ![Vue 3](https://img.shields.io/badge/Vue_3-3.2.x-brightgreen.svg)
@@ -17,13 +17,16 @@
 > This full-stack application is a cutting-edge example of integrating modern back-end and front-end technologies to create a responsive, scalable, and secure online platform.
 
 ## Table of Contents
+
 - [Technologies and Tools](#technologies-and-tools)
 - [Project Structure](#project-structure)
 - [Features](#features)
 - [Development Practices](#development-practices)
 
 ## Technologies and Tools
+
 This project uses a powerful combination of technologies and tools to ensure robust application development and easy maintenance:
+
 - **Spring Boot**: Simplifies the bootstrapping and development of new Spring applications.
 - **MySQL & JPA**: Handles relational data management with an object-relational mapping approach.
 - **Redis**: Provides high performance data caching to enhance responsiveness.
@@ -37,9 +40,11 @@ This project uses a powerful combination of technologies and tools to ensure rob
 - **Email SMTP**: Integrates email sending functionalities for notifications and user communications.
 
 ## Project Structure
+
 The project is divided into two main parts: the backend and the frontend.
 
 ### Backend
+
 Developed using Spring Boot, the backend is configured to interact seamlessly with MySQL databases through JPA and utilize Redis for caching. Security features are implemented with JWT for authentication processes.
 
 ```bash
@@ -48,6 +53,7 @@ cd backend
 ```
 
 ### Frontend
+
 The frontend features Vue 3 combined with TypeScript, offering a modern, modular approach to building rich user interfaces. It also includes Vue-Router for navigation and Pinia for state management.
 
 ```bash
@@ -57,6 +63,7 @@ npm run serve
 ```
 
 ## Features
+
 - **Secure Authentication System**: Utilizing JWT for secure login processes ensuring that all user data remains confidential.
 - **Dynamic Data Presentation**: Interactive components that display data in real-time, leveraging Vue's reactive capabilities.
 - **Caching Mechanisms**: Implementing Redis to reduce latency and load times, enhancing the user experience.
@@ -64,9 +71,11 @@ npm run serve
 - **Responsive Design**: Mobile-first design approach, ensuring the application is usable on various devices and screen sizes.
 
 ## Development Practices
+
 - **Continuous Integration/Deployment**: Using tools like Jenkins and Docker for automated testing and deployment.
 - **Code Quality Assurance**: Implementing ESLint and Prettier in the development process to ensure that all code meets industry standards.
 - **Scalable Architecture**: Designing the application to handle increases in load gracefully, ensuring long-term sustainability.
 
 ## Conclusion
+
 This project demonstrates my ability to integrate various technologies to create a seamless, efficient, and scalable web application. It showcases my understanding of both frontend and backend technologies, and my commitment to modern development practices.

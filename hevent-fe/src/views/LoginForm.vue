@@ -1,3 +1,88 @@
+<template>
+    <el-row class="login-page">
+        <el-col :span="12" class="bg">
+        </el-col>
+        <el-col :span="6" :offset="3" class="form">
+            <el-form ref="registerForm" size="large" autocomplete="off" v-if="isRegister" :rules="rules" :model="registerData" @submit.prevent="register">
+                <el-form-item>
+                    <h1>Register</h1>
+                </el-form-item>
+
+                <el-form-item prop="username">
+                    <el-input 
+                        :prefix-icon="User"
+                        placeholder="Please enter your username" 
+                        v-model="registerData.username"
+                    ></el-input>
+                </el-form-item>
+
+                <el-form-item prop="password">
+                    <el-input 
+                        :prefix-icon="Lock"
+                        type="password" 
+                        placeholder="Please enter your password" 
+                        v-model="registerData.password"
+                    ></el-input>
+                </el-form-item>
+
+                <el-form-item prop="rePassword">
+                    <el-input 
+                        :prefix-icon="Lock" 
+                        type="password" 
+                        placeholder="Please re-enter your password" 
+                        v-model="registerData.rePassword"
+                    ></el-input>
+                </el-form-item>
+
+                <el-form-item>
+                    <el-button class="button" type="primary" auto-insert-space @click="register">
+                        Register
+                    </el-button>
+                </el-form-item>
+
+                <el-form-item class="flex">
+                    <el-link type="info" :underline="false" @click="isRegister = false">
+                        ← Return
+                    </el-link>
+                </el-form-item>
+            </el-form>
+            
+            <el-form ref="loginForm" size="large" v-else :model="loginData" :rules="rules">
+                <el-form-item>
+                    <h1>Login</h1>
+                </el-form-item>
+
+                <el-form-item prop="username">
+                    <el-input :prefix-icon="User" placeholder="Enter your username" v-model="loginData.username"></el-input>
+                </el-form-item>
+
+                <el-form-item prop="password">
+                    <el-input name="password" :prefix-icon="Lock" type="password" placeholder="Enter your password" v-model="loginData.password"></el-input>
+                </el-form-item>
+
+                <el-form-item class="flex">
+                    <div class="flex">
+                        <el-checkbox>Remember Me</el-checkbox>
+                        <el-link type="primary" :underline="false">Forgot password?</el-link>
+                    </div>
+                </el-form-item>
+
+                <el-form-item>
+                    <el-button class="button" type="primary" auto-insert-space @click="login">
+                        Login
+                    </el-button>
+                </el-form-item>
+
+                <el-form-item class="flex">
+                    <el-link type="info" :underline="false" @click="isRegister = true" >
+                        Register →
+                    </el-link>
+                </el-form-item>
+            </el-form>
+        </el-col>
+    </el-row>
+</template>
+
 <script setup lang="ts">
     import { Lock, User } from "@element-plus/icons-vue";
     import { reactive, ref } from "vue";
@@ -76,26 +161,36 @@
                 }
             },
             {
-                validator: notBlank, trigger: 'blur'
+                validator: notBlank, trigger: ['blur', 'change']
             }
         ]
     }
 
+    const registerForm = ref<FormInstance | null>();
+
     const register = async () => {
-        const result = await registerService(registerData); 
+        if (!registerForm.value) return;
+
+        registerForm.value.validate(async (valid: boolean) =>{
+            if (valid) {
+                const result = await registerService(registerData); 
         
-        ElMessage.success(result.data.message ? result.data.message : 'Registered successfully');
+                ElMessage.success(result.data.message ? result.data.message : 'Registered successfully');
+
+                isRegister.value = false;
+            }
+        })
     }
 
-    const form = ref<FormInstance | null> ();
+    
     const router = useRouter();
     const tokenStore = useTokenStore();
+    const loginForm = ref<FormInstance | null>();
 
     const login = async () => {
-        if (!form.value) return;
+        if (!loginForm.value) return;
 
-
-        form.value.validate(async (valid: boolean) =>{
+        loginForm.value.validate(async (valid: boolean) =>{
             if (valid) {
                 const result =  await loginService(loginData);
 
@@ -108,91 +203,6 @@
         })
     }
 </script>
-
-<template>
-    <el-row class="login-page">
-        <el-col :span="12" class="bg">
-        </el-col>
-        <el-col :span="6" :offset="3" class="form">
-            <el-form ref="form" size="large" autocomplete="off" v-if="isRegister" :rules="rules" :model="registerData" @submit.prevent="register">
-                <el-form-item>
-                    <h1>Register</h1>
-                </el-form-item>
-
-                <el-form-item prop="username">
-                    <el-input 
-                        :prefix-icon="User"
-                        placeholder="Please enter your username" 
-                        v-model="registerData.username"
-                    ></el-input>
-                </el-form-item>
-
-                <el-form-item prop="password">
-                    <el-input 
-                        :prefix-icon="Lock"
-                        type="password" 
-                        placeholder="Please enter your password" 
-                        v-model="registerData.password"
-                    ></el-input>
-                </el-form-item>
-
-                <el-form-item prop="rePassword">
-                    <el-input 
-                        :prefix-icon="Lock" 
-                        type="password" 
-                        placeholder="Please re-enter your password" 
-                        v-model="registerData.rePassword"
-                    ></el-input>
-                </el-form-item>
-
-                <el-form-item>
-                    <el-button class="button" type="primary" auto-insert-space @click="register">
-                        Register
-                    </el-button>
-                </el-form-item>
-
-                <el-form-item class="flex">
-                    <el-link type="info" :underline="false" @click="isRegister = false">
-                        ← Return
-                    </el-link>
-                </el-form-item>
-            </el-form>
-            
-            <el-form ref="form" size="large" v-else :model="loginData" :rules="rules">
-                <el-form-item>
-                    <h1>Login</h1>
-                </el-form-item>
-
-                <el-form-item prop="username">
-                    <el-input :prefix-icon="User" placeholder="Enter your username" v-model="loginData.username"></el-input>
-                </el-form-item>
-
-                <el-form-item prop="password">
-                    <el-input name="password" :prefix-icon="Lock" type="password" placeholder="Enter your password" v-model="loginData.password"></el-input>
-                </el-form-item>
-
-                <el-form-item class="flex">
-                    <div class="flex">
-                        <el-checkbox>Remember Me</el-checkbox>
-                        <el-link type="primary" :underline="false">Forgot password?</el-link>
-                    </div>
-                </el-form-item>
-
-                <el-form-item>
-                    <el-button class="button" type="primary" auto-insert-space @click="login">
-                        Login
-                    </el-button>
-                </el-form-item>
-
-                <el-form-item class="flex">
-                    <el-link type="info" :underline="false" @click="isRegister = true" >
-                        Register →
-                    </el-link>
-                </el-form-item>
-            </el-form>
-        </el-col>
-    </el-row>
-</template>
 
 <style lang="scss" scoped>
     .login-page {

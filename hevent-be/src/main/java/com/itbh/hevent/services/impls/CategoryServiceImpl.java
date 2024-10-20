@@ -12,6 +12,7 @@ import com.itbh.hevent.services.CategoryService;
 import com.itbh.hevent.utils.AuthenticationFacadeUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import java.util.List;
 
@@ -33,7 +34,7 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     public CategoryDTO addCategory(AddCategoryDTO addCategoryDTO) {
         User user = AuthenticationFacadeUtil.getAuthenticatedUser(authenticationFacade,userRepository);
-        Category category = new Category(addCategoryDTO.categoryName(), addCategoryDTO.categoryAlias(), user);
+        Category category = new Category(StringUtils.capitalize(addCategoryDTO.categoryName().toLowerCase()), addCategoryDTO.categoryAlias().toLowerCase(), user);
         return categoryMapper.toCategoryDTO(categoryRepository.save(category));
     }
 

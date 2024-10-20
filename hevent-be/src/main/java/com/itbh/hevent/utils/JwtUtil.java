@@ -25,17 +25,8 @@ public class JwtUtil {
     @Autowired
     private RedisTemplate<String, String> redisTemplate;
 
-    /*@Value("${jwt.secret}")
-    private String secret;*/
-
-    public JwtUtil() {
-        byte[] keyBytes = new byte[32];
-
-        new SecureRandom().nextBytes(keyBytes);
-
-        this.secretKey = Keys.hmacShaKeyFor(Decoders.BASE64.decode(Base64.getEncoder().encodeToString(keyBytes)));
-
-        System.out.println("\n" + Base64.getEncoder().encodeToString(keyBytes) + "\n");
+    public JwtUtil(@Value("${jwt.secret}") String secret) {
+        this.secretKey = Keys.hmacShaKeyFor(Decoders.BASE64.decode(secret));
     }
 
 

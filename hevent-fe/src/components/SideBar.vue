@@ -17,7 +17,7 @@
                     <span>Management</span>
                 </el-menu-item>
 
-                <el-sub-menu>
+                <el-sub-menu index="/user">
                     <template #title>
                         <el-icon>
                             <UserFilled/>
@@ -26,26 +26,26 @@
                         <span>User</span>
                     </template>
 
-                    <el-menu-item index="/user/info">
+                    <el-menu-item index="/user/profile">
                         <el-icon>
                             <User/>
                         </el-icon>
 
-                        <span>Information</span>
+                        <span>Profile</span>
                     </el-menu-item>
 
                     <el-menu-item index="/user/avatar">
                         <el-icon>
                             <Crop/>
                         </el-icon>
-                        <span>Change Avatar</span>
+                        <span>Avatar</span>
                     </el-menu-item>
 
-                    <el-menu-item index="/user/resetPassword">
+                    <el-menu-item index="/user/reset">
                         <el-icon>
                             <EditPen/>
                         </el-icon>
-                        <span>Reset Password</span>
+                        <span>Reset</span>
                     </el-menu-item>
                 </el-sub-menu>
             </el-menu>
@@ -53,31 +53,30 @@
 </template>
 
 <script setup lang="ts">
-import { useSidebarStore } from '@/stores/sidebar';
+    import { useSidebarStore } from '@/stores/sidebar';
 
-
-const sidebar = useSidebarStore();
+    const sidebar = useSidebarStore();
 </script>
 
-<style lang="scss" scoped>
-.sidebar {
-    display: block;
-    position: absolute;
-    left: 0;
-    top: 70px;
-    bottom: 0;
-    overflow-y: scroll;
-}
+<style scoped lang="scss">
+    .sidebar {
+        display: block;
+        position: absolute;
+        left: 0;
+        top: 70px;
+        bottom: 0;
+        overflow-y: scroll;
+    }
 
-.sidebar::-webkit-scrollbar {
-    width: 0;
-}
+    .sidebar::-webkit-scrollbar {
+        width: 0;
+    }
 
-.sidebar-el-menu:not(.el-menu--collapse) {
-    width: 250px;
-}
+    .sidebar-el-menu:not(.el-menu--collapse) {
+        width: 250px;
+    }
 
-.sidebar-el-menu {
-    min-height: 100%;
-}
+    .sidebar-el-menu {
+        min-height: 100%;
+    }
 </style>

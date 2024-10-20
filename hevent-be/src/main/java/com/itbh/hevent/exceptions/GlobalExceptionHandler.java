@@ -34,4 +34,9 @@ public class GlobalExceptionHandler {
     public ResponseEntity<ApiResponse<?>> handleEmailSendingException(EmailSMTPException ex, HttpServletRequest request) {
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(ApiResponse.error(HttpStatus.INTERNAL_SERVER_ERROR, "Email sending failed: " + ex.getMessage(), request.getRequestURI()));
     }
+
+    @ExceptionHandler(UserNotFoundException.class)
+    public ResponseEntity<ApiResponse<?>> handleUserNotFoundException(UserNotFoundException ex, HttpServletRequest request) {
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(ApiResponse.error(HttpStatus.UNAUTHORIZED, ex.getMessage(), request.getRequestURI()));
+    }
 }

@@ -5,7 +5,7 @@
                 <span>Categories</span>
 
                 <div class="extra">
-                    <el-button type="primary" @click="dialogVisible = true">Add Category</el-button>
+                    <el-button type="primary" @click="dialogVisible = true; title = 'Add Category'; clearData();">Add Category</el-button>
                 </div>
             </div>
         </template>
@@ -22,8 +22,8 @@
             </el-table-column>
 
             <el-table-column label="Actions" width="100">
-                <template #default="{  }">
-                    <el-button :icon="Edit" circle plain type="primary"></el-button>
+                <template #default="{ row }">
+                    <el-button :icon="Edit" circle plain type="primary" @click="showDialog(row)"></el-button>
                     <el-button :icon="Delete" circle plain type="danger"></el-button>
                 </template>
             </el-table-column>
@@ -33,7 +33,7 @@
             </template>
         </el-table>
 
-        <el-dialog width="30%" v-model="dialogVisible">
+        <el-dialog width="30%" v-model="dialogVisible" :title="title">
             <el-form :model="categoryModel" :rules="rules" ref="form" label-width="100px" style="padding-right: 30px">
                 <el-form-item label="Name" prop="categoryName" style="margin-bottom: 32px;">
                     <el-input v-model="categoryModel.categoryName" minlength="1" maxlength="10"></el-input>
@@ -47,7 +47,7 @@
             <template #footer>
                 <span class="dialog-footer">
                     <el-button @click="dialogVisible = false">Cancel</el-button>
-                    <el-button type="primary" @click=addCategory()>Confirm</el-button>
+                    <el-button type="primary" @click="title==='Add Category'?addCategory():updateCategory()">Confirm</el-button>
                 </span>
             </template>
         </el-dialog>
@@ -58,9 +58,20 @@
     import {Delete, Edit} from '@element-plus/icons-vue';
     import { reactive, ref } from 'vue';
     import type { Category, CategoryData } from '@/types';
-    import { addCategoryService, getCategoryListService } from '../../apis/article';
+    import { addCategoryService, getCategoryListService, updateCategoryService } from '../../apis/article';
     import { type FormRules, type FormInstance, ElMessage } from 'element-plus';
     import {type InternalRuleItem } from "async-validator";
+
+    const title = ref('');
+
+    const showDialog = ( row: Category ) => {
+        dialogVisible.value = true;
+        title.value = 'Edit Category';
+
+        categoryModel.categoryName = row.categoryName;
+        categoryModel.categoryAlias = row.categoryAlias;
+        categoryModel.id = row.id;
+    }
 
 
     const categories = ref<Category[]>([]);
@@ -131,9 +142,25 @@
 
         form.value.validate(async (valid: boolean) =>{
             if (valid) {
-                const result = await addCategoryService(categoryModel);
+                await addCategoryService(categoryModel);
 
-                ElMessage.success(result.data.message ? result.data.message : 'Category created successfully');
+                ElMessage.success('Category created successfully');
+
+                await categoryList();
+                dialogVisible.value = false;
+                clearData();
+            }
+        })
+    }
+
+    const updateCategory = async () => {
+        if (!form.value) return;
+
+        form.value.validate(async (valid: boolean) =>{
+            if (valid) {
+                await updateCategoryService(categoryModel);
+
+                ElMessage.success('Category updated successfully');
 
                 await categoryList();
                 dialogVisible.value = false;

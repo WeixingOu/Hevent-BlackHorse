@@ -15,3 +15,11 @@ export const addCategoryService = (categoryData: CategoryData) => {
         data: categoryData
     })
 }
+
+export const updateCategoryService = (categoryData: CategoryData) => {
+    return request({
+        url: `/categories/${categoryData.id}`,
+        method: 'put',
+        data: categoryData
+    })
+}

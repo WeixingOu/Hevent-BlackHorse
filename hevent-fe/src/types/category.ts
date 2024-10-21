@@ -7,6 +7,7 @@ export interface Category {
 }
 
 export interface CategoryData {
+    id?: number | null;
     categoryName: string;
     categoryAlias: string;
 }

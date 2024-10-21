@@ -60,8 +60,8 @@ public class CategoryServiceImpl implements CategoryService {
         Category category = categoryRepository.findByIdAndCreateUser(categoryId, user)
             .orElseThrow(() -> new RuntimeException("Category not found with id: " + categoryId + " for the authenticated user"));
 
-        category.setCategoryName(updateCategoryDTO.categoryName());
-        category.setCategoryAlias(updateCategoryDTO.categoryAlias());
+        category.setCategoryName(StringUtils.capitalize(updateCategoryDTO.categoryName().toLowerCase()));
+        category.setCategoryAlias(updateCategoryDTO.categoryAlias().toLowerCase());
 
         return categoryMapper.toCategoryDTO(categoryRepository.save(category));
     }

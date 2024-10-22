@@ -28,8 +28,8 @@ public class FileUploadController {
     }
 
     @PostMapping("/upload")
-    public ResponseEntity<ApiResponse<Map<String, String>>> uploadCoverImg(@RequestParam MultipartFile file) throws IOException {
-        String fileUrl = cloudinaryService.uploadFile(file);
+    public ResponseEntity<ApiResponse<Map<String, String>>> uploadCoverImg(@RequestParam MultipartFile file, @RequestParam String publicId) throws IOException {
+        String fileUrl = cloudinaryService.uploadFile(file, publicId);
 
         Map<String, String> response = new HashMap<>();
         response.put("coverImgUrl", fileUrl);

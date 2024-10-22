@@ -1,4 +1,5 @@
 import ArticleCategory from "@/views/article/ArticleCategory.vue";
+import ArticleManage from "@/views/article/ArticleManage.vue";
 import LayoutHome from "@/views/LayoutHome.vue";
 import LoginForm from "@/views/LoginForm.vue";
 import {createRouter, createWebHistory, type RouteRecordRaw} from "vue-router";
@@ -7,13 +8,14 @@ const routes: RouteRecordRaw[] = [
     {
         path: '/',
         component: LayoutHome,
-        redirect: '/article/category',
+        redirect: '/article/manage',
 
         children: [
             {
-                path: '/article/category',
-                component: ArticleCategory
-            }
+                path: '/article/manage',
+                component: ArticleManage
+            },
+            {path: '/article/category', component: ArticleCategory},
         ]
     },
     {

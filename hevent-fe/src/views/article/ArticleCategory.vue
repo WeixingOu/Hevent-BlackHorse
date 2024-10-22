@@ -24,12 +24,12 @@
             <el-table-column label="Actions" width="100">
                 <template #default="{ row }">
                     <el-button :icon="Edit" circle plain type="primary" @click="showDialog(row)"></el-button>
-                    <el-button :icon="Delete" circle plain type="danger"></el-button>
+                    <el-button :icon="Delete" circle plain type="danger" @click="deleteCategory(row)"></el-button>
                 </template>
             </el-table-column>
 
             <template #empty>
-                <el-empty description="No Data"/>
+                <el-empty description="No Data available"/>
             </template>
         </el-table>
 
@@ -58,8 +58,8 @@
     import {Delete, Edit} from '@element-plus/icons-vue';
     import { reactive, ref } from 'vue';
     import type { Category, CategoryData } from '@/types';
-    import { addCategoryService, getCategoryListService, updateCategoryService } from '../../apis/article';
-    import { type FormRules, type FormInstance, ElMessage } from 'element-plus';
+    import { addCategoryService, deleteCategoryService, getCategoryListService, updateCategoryService } from '../../apis/article';
+    import { type FormRules, type FormInstance, ElMessage, ElMessageBox } from 'element-plus';
     import {type InternalRuleItem } from "async-validator";
 
     const title = ref('');
@@ -168,7 +168,31 @@
             }
         })
     }
-    
+
+    const deleteCategory = ( row: Category ) => {
+        ElMessageBox.confirm(
+            'Are you sure you want to delete this category?',
+            'Warning',
+            {
+                confirmButtonText: 'Confirm',
+                cancelButtonText: 'Cancel',
+                type: 'warning'
+            }
+        ).then(
+            async () => {
+                await deleteCategoryService(row.id);
+
+                ElMessage.success("Deleted successfully");
+
+                await categoryList();
+            }
+        ).catch(()=> {
+            ElMessage({
+                type: 'info',
+                message: 'Cancelled deletion'
+            })
+        })
+    }
 </script>
 
 <style scoped lang="scss">

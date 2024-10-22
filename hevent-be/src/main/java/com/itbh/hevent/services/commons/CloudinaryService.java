@@ -18,15 +18,16 @@ public class CloudinaryService {
         this.cloudinary = cloudinary;
     }
 
-    public String uploadFile(MultipartFile file) throws IOException {
+    public String uploadFile(MultipartFile file, String publicId) throws IOException {
         if (file.isEmpty()) {
             throw new IllegalArgumentException("File is empty");
         }
 
         Map params = ObjectUtils.asMap(
-            "use_filename", false,
-            "unique_filename", true,
-            "overwrite", false
+            "use_filename", true,
+            "unique_filename", false,
+            "overwrite", true,
+            "public_id", publicId
         );
 
         return cloudinary.uploader().upload(file.getBytes(), params).get("url").toString();

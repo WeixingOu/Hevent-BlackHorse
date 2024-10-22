@@ -65,4 +65,14 @@ public class CategoryServiceImpl implements CategoryService {
 
         return categoryMapper.toCategoryDTO(categoryRepository.save(category));
     }
+
+    @Override
+    public void deleteCategory(Long categoryId) {
+        User user = AuthenticationFacadeUtil.getAuthenticatedUser(authenticationFacade, userRepository);
+        Category category = categoryRepository.findByIdAndCreateUser(categoryId, user)
+            .orElseThrow(() -> new RuntimeException("Category not found with id: " + categoryId + " for the authenticated user"));
+
+        categoryRepository.delete(category);
+    }
+
 }

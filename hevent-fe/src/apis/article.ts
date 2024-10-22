@@ -1,4 +1,4 @@
-import type { CategoryData } from '@/types';
+import type { CategoryData, PageParam } from '@/types';
 import request from '@/utils/request';
 
 export const getCategoryListService = () => {
@@ -21,5 +21,19 @@ export const updateCategoryService = (categoryData: CategoryData) => {
         url: `/categories/${categoryData.id}`,
         method: 'put',
         data: categoryData
+    })
+}
+
+export const deleteCategoryService = (id: number) => {
+    return request({
+        url: `/categories/${id}`,
+        method: 'delete'
+    })
+}
+
+export const getArticleListService = (params: PageParam) => {
+    return request({
+        url: '/articles',
+        params
     })
 }

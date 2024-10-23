@@ -11,7 +11,7 @@ export interface Article {
 }
 
 export interface ArticleData {
-    id?: string; 
+    id?: string | number; 
     title: string;
     content: string;
     coverImg: string;

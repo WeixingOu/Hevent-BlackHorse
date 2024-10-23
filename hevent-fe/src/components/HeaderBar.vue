@@ -15,22 +15,34 @@
 
         <div class="header-right">
             <div class="header-user-con">
-                <el-avatar class="user-avator" :size="30" />
+                <div class="btn-icon" @click="toggleFullScreen ">
+                    <el-tooltip effect="dark" content="Full Screen" placement="bottom">
+                        <template v-if="!isFullScreen">
+                                <FullScreen class="btn-fullscreen"/>
+                            </template>
+                            <template v-else>
+                                <FullScreen class="btn-fullscreen-close"/>
+                            </template>
+                    </el-tooltip>
+                </div>
+
+                <el-avatar class="user-avator" :size="30" :src="profileStore.profile?.userPic || avatar"  />
                 
-                <el-dropdown class="user-name" trigger="click" placement="bottom-end">
+                <el-dropdown class="user-name" trigger="click" placement="bottom-end" @command="handleCommand">
                     
                     <span class="el-dropdown-link">
-                        {{ '' }}
-                        <el-icon class="el-icon--right">
+                        {{ profileStore.profile?.nickname }}
+
+                        <el-icon class="el-icon--right" style="margin-left: 10px;">
                             <arrow-down />
                         </el-icon>
                     </span>
 
                     <template #dropdown>
-                        <el-dropdown-menu>
-                            <el-dropdown-item command="info" :icon="User">Profile</el-dropdown-item>
+                        <el-dropdown-menu placement="bottom-end">
+                            <el-dropdown-item command="profile" :icon="User">Profile</el-dropdown-item>
                             <el-dropdown-item command="avatar" :icon="Crop">Avatar</el-dropdown-item>
-                            <el-dropdown-item command="resetPassword" :icon="EditPen">Reset</el-dropdown-item>
+                            <el-dropdown-item command="reset" :icon="EditPen">Reset</el-dropdown-item>
                             <el-dropdown-item command="logout" :icon="SwitchButton">Log Out</el-dropdown-item>
                         </el-dropdown-menu>
                     </template>
@@ -41,11 +53,20 @@
 </template>
 
 <script setup lang="ts">
-    import { User, Crop, EditPen, SwitchButton } from '@element-plus/icons-vue'
-    import { onMounted } from 'vue';
+    import { User, Crop, EditPen, SwitchButton, Expand, Fold, FullScreen } from '@element-plus/icons-vue'
+    import { onMounted, ref, onUnmounted } from 'vue';
     import { useSidebarStore } from '@/stores/sidebar';
+    import { useProfileStore } from '@/stores/profile';
+    import { getProfileService } from '@/apis/user';
+    import { ElMessage, ElMessageBox } from 'element-plus';
+    import { useRouter } from 'vue-router';
+    import { useTokenStore } from '@/stores/token';
+    import { logoutService } from '@/apis/auth';
+
+    const avatar = '@/assets/default.png';
 
     const sidebar = useSidebarStore();
+    const isFullScreen = ref(false);
 
     const collapseChage = () => {
         sidebar.handleCollapse();
@@ -55,7 +76,67 @@
         if (document.body.clientWidth < 1500) {
             collapseChage();
         }
+
+        document.addEventListener('fullscreenchange', onFullScreenChange);
     });
+
+    onUnmounted(() => {
+        document.removeEventListener('fullscreenchange', onFullScreenChange);
+    });
+
+    const onFullScreenChange = () => {
+        isFullScreen.value = !!document.fullscreenElement;
+    };
+
+    const toggleFullScreen = () => {
+        if (isFullScreen.value) {
+            document.exitFullscreen();
+        } else {
+            document.body.requestFullscreen();
+        }
+    };
+
+    const profileStore = useProfileStore();
+    const tokenStore = useTokenStore();
+
+    const getProfile = async () => {
+        const res = await getProfileService();
+
+        profileStore.setProfile(res.data)
+    } 
+    getProfile();
+
+    const router = useRouter();
+
+    const handleCommand = (command: unknown) => {
+        if (command === 'logout') {
+            ElMessageBox.confirm(
+                'Are you sure you want to log out?',
+                'REMINDER',
+                {
+                confirmButtonText: 'Confirm',
+                cancelButtonText: 'Cancel',
+                type: 'warning'
+                }
+            ).then(
+                async () => {
+                    await logoutService();
+
+                    profileStore.removeProfile();
+                    tokenStore.removeToken();
+                    ElMessage.success("Logged out successfully");
+                    await router.push('/login');
+                }
+            ).catch(()=> {
+                ElMessage({
+                    type: 'info',
+                    message: 'Cancelled logout'
+                })
+            })
+        } else {
+            router.push('/user/' + command)
+        }
+    }
 
 
 </script>
@@ -132,8 +213,13 @@
                     }
                 }
 
-                .btn-fullscreen {
+                .btn-fullscreen-close {
                     transform: rotate(45deg);
+                    margin-right: 5px;
+                    font-size: 24px;
+                }
+
+                .btn-fullscreen {
                     margin-right: 5px;
                     font-size: 24px;
                 }

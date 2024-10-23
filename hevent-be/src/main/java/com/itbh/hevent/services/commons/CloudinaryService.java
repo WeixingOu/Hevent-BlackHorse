@@ -33,4 +33,8 @@ public class CloudinaryService {
         return cloudinary.uploader().upload(file.getBytes(), params).get("url").toString();
     }
 
+    public void deleteFile(String publicId) throws IOException {
+        Map params = ObjectUtils.asMap("invalidate", true);
+        cloudinary.uploader().destroy(publicId, params);
+    }
 }

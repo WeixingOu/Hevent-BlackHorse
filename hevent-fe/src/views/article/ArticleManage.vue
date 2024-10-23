@@ -40,8 +40,8 @@
             <el-table-column label="Status" prop="state"></el-table-column>
             <el-table-column label="Actions" width="100">
                 <template #default="{ row }">
-                    <el-button :icon="Edit" circle plain type="primary" ></el-button>
-                    <el-button :icon="Delete" circle plain type="danger" ></el-button>
+                    <el-button :icon="Edit" circle plain type="primary" @click="showEditDialog(row,'Edit Article')"></el-button>
+                    <el-button :icon="Delete" circle plain type="danger" @click="deleteArticle(row)"></el-button>
                 </template>
             </el-table-column>
             <template #empty>
@@ -53,6 +53,7 @@
             layout="jumper, total, sizes, prev, pager, next" background :total="total" 
             @size-change="onSizeChange" @current-change="onCurrentChange"
             style="margin-top: 20px; justify-content: flex-end" />
+
     </el-card>
 
 
@@ -80,6 +81,7 @@
                         <Plus />
                     </el-icon>
                 </el-upload>
+                
             </el-form-item>
             <el-form-item label="Content">
                 <div class="editor">
@@ -89,9 +91,9 @@
                 </div>
             </el-form-item>
             <el-form-item>
-                <el-button type="primary">Publish
+                <el-button type="primary"  @click="drawerTitle==='Add Article'?addArticle('PUBLISHED'):updateArticle('PUBLISHED')">Publish
                 </el-button>
-                <el-button type="info">Draft
+                <el-button type="info"  @click="drawerTitle==='Add Article'?addArticle('DRAFT'):updateArticle('DRAFT')">Draft
                 </el-button>
             </el-form-item>
         </el-form>
@@ -105,11 +107,12 @@
     import { reactive, ref } from 'vue';
     import type { Category, PageParam, Article } from '@/types';
     import type { ArticleData } from '@/types/article';
-    import { getArticleListService, getCategoryListService } from '@/apis/article';
+    import { addArticleService, deleteArticleService, getArticleListService, getCategoryListService, updateArticleService } from '@/apis/article';
     import { format } from 'date-fns';
     import { useTokenStore } from "@/stores/token";
     import type { AxiosResponse } from 'axios';
     import { v4 as uuidv4 } from 'uuid';
+    import { ElMessage, ElLoading, ElMessageBox } from 'element-plus';
 
     const tokenStore = useTokenStore();
 
@@ -201,6 +204,109 @@
         drawerTitle.value = title;
         visibleDrawer.value = true;
     }
+
+    const addArticle = async (state: 'DRAFT' | 'PUBLISHED') => {
+        const loadingInstance = ElLoading.service({
+            lock: true,
+            text: 'Loading...',
+            background: 'rgba(0, 0, 0, 0.7)',
+        });
+
+        articleModel.state = state;
+
+        const res = await addArticleService(articleModel).catch(() => {
+            ElMessage.error('Error occurred while publishing the article');
+            
+            return null;
+        });
+
+        if (!res) {
+            loadingInstance.close();
+            return;
+        }
+
+        ElMessage.success('Article created successfully');
+
+        await articleList();
+        loadingInstance.close();
+        visibleDrawer.value = false;
+        clearData();
+    }
+
+    const showEditDialog = (row: Article, title: string) => {
+        visibleDrawer.value = true;
+
+        drawerTitle.value = title;
+
+        articleModel.id = row.id;
+        articleModel.title = row.title;
+        articleModel.content = row.content;
+        articleModel.coverImg = row.coverImg;
+        articleModel.state = row.state;
+        articleModel.categoryId = row.categoryId;
+    }
+
+    const updateArticle = async (state: 'DRAFT' | 'PUBLISHED') => {
+        const loadingInstance = ElLoading.service({
+            lock: true,
+            text: 'Loading...',
+            background: 'rgba(0, 0, 0, 0.7)',
+        });
+
+        const res = await updateArticleService(articleModel).catch(() => {
+            ElMessage.error('Error occurred while editing the article');
+
+            return null; 
+        });
+
+        if (!res) {
+            loadingInstance.close();
+            return;
+        }
+
+        articleModel.state = state;
+
+        ElMessage.success('Article edited successfully');
+
+        await articleList();
+        loadingInstance.close();
+        visibleDrawer.value = false;
+        clearData();
+    }
+
+    const deleteArticle = async ( row: Article ) => {
+        const loadingInstance = ElLoading.service({
+                lock: true,
+                text: 'Loading...',
+                background: 'rgba(0, 0, 0, 0.7)',
+            });
+
+        ElMessageBox.confirm(
+            'Are you sure you want to delete this article?',
+            'Warning',
+            {
+                confirmButtonText: 'Confirm',
+                cancelButtonText: 'Cancel',
+                type: 'warning'
+            }
+        ).then(
+            async () => {
+                await deleteArticleService(row.id);
+                
+                ElMessage.success('Article deleted successfully');
+
+                await articleList();
+
+                loadingInstance.close();
+            }
+        ).catch(()=> {
+            ElMessage({
+                type: 'info',
+                message: 'Cancelled deletion'
+            })
+            loadingInstance.close();
+        })
+    }
 </script>
 
 <style lang="scss" scoped>
@@ -216,33 +322,31 @@
     }
 
     .avatar-uploader {
-        :deep {
-            .avatar {
-                width: 178px;
-                height: 178px;
-                display: block;
-            }
+        :deep(.avatar) {
+            width: 178px;
+            height: 178px;
+            display: block;
+        }
 
-            .el-upload {
-                border: 1px dashed var(--el-border-color);
-                border-radius: 6px;
-                cursor: pointer;
-                position: relative;
-                overflow: hidden;
-                transition: var(--el-transition-duration-fast);
-            }
+        :deep(.el-upload) {
+            border: 1px dashed var(--el-border-color);
+            border-radius: 6px;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            transition: var(--el-transition-duration-fast);
+        }
 
-            .el-upload:hover {
-                border-color: var(--el-color-primary);
-            }
+        :deep(.el-upload:hover) {
+            border-color: var(--el-color-primary);
+        }
 
-            .el-icon.avatar-uploader-icon {
-                font-size: 28px;
-                color: #8c939d;
-                width: 178px;
-                height: 178px;
-                text-align: center;
-            }
+        :deep(.el-icon.avatar-uploader-icon) {
+            font-size: 28px;
+            color: #8c939d;
+            width: 178px;
+            height: 178px;
+            text-align: center;
         }
     }
 

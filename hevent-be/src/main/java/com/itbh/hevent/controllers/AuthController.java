@@ -3,6 +3,7 @@ package com.itbh.hevent.controllers;
 import com.itbh.hevent.dtos.records.LoginRequestDTO;
 import com.itbh.hevent.exceptions.api.ApiResponse;
 import com.itbh.hevent.utils.JwtUtil;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -45,5 +46,15 @@ public class AuthController {
         jwt.put("jwt", jwtUtil.generateToken(authentication.getName()));
 
         return new ResponseEntity<>(ApiResponse.success(jwt), HttpStatus.OK);
+    }
+
+    @PostMapping("/logout")
+    public ResponseEntity<ApiResponse<String>> logout(HttpServletRequest request) {
+        String header = request.getHeader("Authorization");
+        if (header != null && header.startsWith("Bearer ")) {
+            String token = header.substring(7);
+            jwtUtil.invalidateToken(token);
+        }
+        return new ResponseEntity<>(ApiResponse.success("Logged out successfully"), HttpStatus.OK);
     }
 }

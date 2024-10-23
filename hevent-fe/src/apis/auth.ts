@@ -16,3 +16,10 @@ export const loginService = (loginData: LoginData) => {
         data: loginData
     });
 }
+
+export const logoutService = () => {
+    return request({
+        url: '/auth/logout',
+        method: 'post',
+    });
+}

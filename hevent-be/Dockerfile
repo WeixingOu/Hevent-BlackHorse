@@ -1,4 +1,4 @@
-FROM maven:3.8.5-openjdk-17 as build
+FROM maven:3.8.5-openjdk-17 AS build
 
 WORKDIR /app
 
@@ -10,7 +10,7 @@ RUN mvn package -DskipTests
 
 FROM openjdk:17-jdk-alpine
 
-COPY --from=build /target/*.jar /app/app.jar
+COPY --from=build app/target/*.jar /app/app.jar
 
 EXPOSE 8080
 

@@ -28,8 +28,9 @@
 
 [Live Demo](hevent-blackhorse.onrender.com/login)
 
-
-<img src="https://github.com/user-attachments/assets/4c0489bc-b305-4199-a7f2-f27d35951eca" />
+<picture>
+  <img src="https://github.com/user-attachments/assets/4c0489bc-b305-4199-a7f2-f27d35951eca" />
+</picture>
 
 ## Table of Contents
 
